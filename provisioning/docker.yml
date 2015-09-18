@@ -20,4 +20,5 @@
     - nginx
     - php
     - composer
+#    - app
 #    - bower
