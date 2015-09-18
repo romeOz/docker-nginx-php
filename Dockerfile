@@ -4,8 +4,8 @@ MAINTAINER romeOz <serggalka@gmail.com>
 ENV APP_LOCALE="en_US.UTF-8"
 RUN locale-gen ${APP_LOCALE}
 ENV LANG ${APP_LOCALE}
-ENV	LANGUAGE en_US:en
-ENV	LC_ALL ${APP_LOCALE}
+ENV LANGUAGE en_US:en
+ENV LC_ALL ${APP_LOCALE}
 
 # Add playbooks to the Docker image
 ADD ./app /var/www/app/
@@ -27,7 +27,7 @@ RUN	\
 	&& apt-get purge -y build-essential software-properties-common python-software-properties git-core libxml2-dev libxslt1-dev libfreetype6-dev python-pip python-apt python-dev \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /tmp/provisionin* \
-	# forward request and error logs to docker log collector
+	# Forward request and error logs to docker log collector
  	&& ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
