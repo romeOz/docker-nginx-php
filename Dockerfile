@@ -29,6 +29,7 @@ RUN	\
 	&& rm -rf /tmp/provisionin* \
 	# Forward request and error logs to docker log collector
  	&& ln -sf /dev/stdout /var/log/nginx/access.log \
+ 	&& ln -sf /dev/stdout /var/log/php5-fpm.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 WORKDIR /var/www/app/

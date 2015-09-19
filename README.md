@@ -87,6 +87,49 @@ docker pull romeoz/docker-nginx-php
 docker run --name app -d [OPTIONS] romeoz/docker-nginx-php
 ```
 
+Logging
+-------------------
+
+All the logs are forwarded to stdout and sterr. You have use the command `docker logs`.
+
+```bash
+docker logs app
+
+```
+
+####Split the logs
+
+You can then simply split the stdout & stderr of the container by piping the separate streams and send them to files:
+
+```bash
+docker logs app > stdout.log 2>stderr.log
+cat stdout.log
+cat stderr.log
+```
+
+or split stdout and error to host stdout:
+
+```bash
+docker logs app > -
+docker logs app 2> -
+```
+
+####Rotate logs
+
+Create the file /etc/logrotate.d/docker-containers with the following text inside
+
+```
+/var/lib/docker/containers/*/*.log {
+    rotate 31
+    daily
+    nocompress
+    missingok
+    notifempty
+    copytruncate
+}
+```
+> Optionally, you can replace `nocompress` to `compress` and change the number of days.
+
 Out of the box
 -------------------
  * Ubuntu 14.04.3 (LTS)
