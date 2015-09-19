@@ -21,7 +21,7 @@ RUN	\
 	# Apply playbooks
 	&& ansible-playbook -v docker.yml -i 'docker,' -c local \
 	# Install supervisor
-	&& apt-get install -y supervisor && mkdir -p /var/log/supervisory \
+	&& apt-get install -y supervisor && mkdir -p /var/log/supervisor \
 	# Cleaning
 	&& pip uninstall -y ansible \
 	&& apt-get purge -y build-essential software-properties-common python-software-properties git-core libxml2-dev libxslt1-dev libfreetype6-dev python-pip python-apt python-dev \
