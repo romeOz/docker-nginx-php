@@ -1,3 +1,14 @@
+Table of Contents
+-------------------
+
+ * [Installation](#installation)
+ * [Quick Start](#quick-start)
+ * [Persistence](#development-persistence)
+ * [Linked to other container](#linked-to-other-container)
+ * [Logging](#logging)
+ * [Upgrading](#upgrading)
+ * [Out of the box](#out-of-the-box)
+
 Installation
 -------------------
 
