@@ -1,7 +1,8 @@
 FROM ubuntu:trusty
 MAINTAINER romeOz <serggalka@gmail.com>
 
-ENV APP_LOCALE="en_US.UTF-8"
+ENV PHP_VERSION=5.6 \
+	APP_LOCALE="en_US.UTF-8"
 RUN locale-gen ${APP_LOCALE}
 ENV LANG ${APP_LOCALE}
 ENV LANGUAGE en_US:en
@@ -10,21 +11,23 @@ ENV LC_ALL ${APP_LOCALE}
 # Add playbooks to the Docker image
 ADD ./app /var/www/app/
 ADD ./provisioning /tmp/provisioning/
-ADD supervisord.conf /etc/supervisor/conf.d/
+ADD ./supervisord.conf /etc/supervisor/conf.d/
 WORKDIR /tmp/provisioning/
 
 RUN	\
 	# Install ansible
-	apt-get -y update \
-	&& apt-get install -y build-essential software-properties-common python-software-properties curl git-core libxml2-dev libxslt1-dev libfreetype6-dev python-pip python-apt python-dev \
-	&& pip install https://pypi.python.org/packages/source/a/ansible/ansible-1.9.3.tar.gz \
+	apt-get update \
+	&& apt-get install --no-install-recommends -y software-properties-common python-software-properties \
+	&& add-apt-repository -y ppa:ansible/ansible \
+	&& apt-get update \
+	&& apt-get install -y ansible \
 	# Apply playbooks
-	&& ansible-playbook -v docker.yml -i 'docker,' -c local \
+	&& ansible-playbook -v docker.yml -i 'docker,' -c local --extra-vars "php_version=${PHP_VERSION}" \
 	# Install supervisor
 	&& apt-get install -y supervisor && mkdir -p /var/log/supervisor \
 	# Cleaning
-	&& pip uninstall -y ansible \
-	&& apt-get purge -y build-essential software-properties-common python-software-properties git-core libxml2-dev libxslt1-dev libfreetype6-dev python-pip python-apt python-dev \
+	&& apt-get purge -y ansible \
+	&& apt-get autoremove -y \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /tmp/provisionin* \
 	# Forward request and error logs to docker log collector

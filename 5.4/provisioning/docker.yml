@@ -1,0 +1,25 @@
+---
+- hosts: docker
+  sudo: true  
+  vars:
+    root_dir: '/var/www/app'
+    username: www-data
+    groupname: www-data
+
+    php_version: "{{ php_version|default(5.6) }}"
+    php_error_reporting: E_ALL
+    php_display_errors: On
+    php_upload_max_filesize: 20M
+    php_post_max_size: 25M
+
+    vhosts:
+      [
+        { name: 'app', webroot_dir: '/var/www/app'}
+      ]
+
+  roles:
+    - nginx
+    - php
+#    - composer
+#    - app
+#    - bower

@@ -1,0 +1,30 @@
+- name: add nginx repository
+  apt_repository: repo='ppa:nginx/stable' state=present update_cache=yes
+  tags: nginx
+
+- name: install Nginx
+  apt: pkg=nginx state=latest
+  tags: nginx
+
+- name: configure Nginx Virtual hosts
+  template: src=site.conf dest=/etc/nginx/sites-available/{{ item.name }}.conf
+  with_items: vhosts
+  notify:
+    - restart nginx
+  tags: nginx
+
+- name: disable default site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify:
+    - restart nginx
+
+- name: disable default site
+  file: path=/etc/nginx/sites-available/default state=absent
+  notify:
+    - restart nginx
+
+- name: enable created sites
+  file: src=/etc/nginx/sites-available/{{ item.name }}.conf dest=/etc/nginx/sites-enabled/{{ item.name }}.conf state=link
+  with_items: vhosts
+  notify:
+    - restart nginx

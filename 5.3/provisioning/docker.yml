@@ -6,6 +6,7 @@
     username: www-data
     groupname: www-data
 
+    php_version: "{{ php_version|default(5.6) }}"
     php_error_reporting: E_ALL
     php_display_errors: On
     php_upload_max_filesize: 20M
@@ -19,6 +20,6 @@
   roles:
     - nginx
     - php
-    - composer
+#    - composer
 #    - app
 #    - bower

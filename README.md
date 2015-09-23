@@ -19,6 +19,12 @@ Installation
 docker pull romeoz/docker-nginx-php
 ```
 
+or other versions (5.6, 5.5, 5.4 or 5.3):
+
+```bash
+docker pull romeoz/docker-nginx-php:5.4
+```
+
 Alternately you can build the image yourself.
 
 ```bash
@@ -145,7 +151,7 @@ Out of the box
 -------------------
  * Ubuntu 14.04.3 (LTS)
  * Nginx 1.8.0
- * PHP 5.6
+ * PHP 5.3/5.4/5.5/5.6
  * Composer
 
 License
