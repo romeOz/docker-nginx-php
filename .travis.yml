@@ -15,7 +15,7 @@ install:
 before_script:
   - env | sort
   - cd "$VERSION"
-  - image="php:${VERSION}"
+  - image="romeoz/docker-nginx-php:${VERSION}"
 
 script:
   - docker build -t "$image"
