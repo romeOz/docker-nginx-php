@@ -1,23 +1,20 @@
-- name: PHP + libraries installed
+- name: 'PHP + libraries installed'
   apt: pkg={{ item }} state=latest
   with_items:
-    - php5-common
     - php5-fpm
-    - php5-dev
     - php5-cli
     - php5-intl
     - php5-json
     - php5-curl
     - php5-mcrypt
     - php5-gd
-    - php5-xdebug
     - php-apc
     - php5-pgsql
     - php5-mysql
     - php-pear
   tags: php
 
-- name: configure PHP settings
+- name: Configure PHP settings
   template: src=php.ini dest=/etc/php5/fpm/conf.d/custom.ini  
   notify:
     - restart phpfpm
@@ -29,12 +26,12 @@
     - restart phpfpm
   tags: php
 
-- name: configure PHP-FPM Pool settings
+- name: Configure PHP-FPM Pool settings
   template: src=www-pool.j2 dest=/etc/php5/fpm/pool.d/www.conf
   notify:
     - restart phpfpm
   tags: php
 
-- name: chown PHP-FPM sessions dir
+- name: Chown PHP-FPM sessions dir
   shell: chown {{ username }}:{{ username }} /var/lib/php5 -Rf
   tags: php

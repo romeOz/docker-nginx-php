@@ -7,10 +7,11 @@
     groupname: www-data
 
     php_version: "{{ php_version|default(5.6) }}"
-    php_error_reporting: E_ALL
-    php_display_errors: On
-    php_upload_max_filesize: 20M
-    php_post_max_size: 25M
+    php:
+      error_reporting: E_ALL
+      display_errors: On
+      upload_max_filesize: 20M
+      post_max_size: 25M
 
     vhosts:
       [
@@ -18,8 +19,9 @@
       ]
 
   roles:
+    - common
     - nginx
     - php
-#    - composer
-#    - app
+    - composer
 #    - bower
+    - app
