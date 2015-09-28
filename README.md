@@ -3,10 +3,11 @@ Table of Contents
 
  * [Installation](#installation)
  * [Quick Start](#quick-start)
- * [Persistence](#development-persistence)
+ * [Persistence](#developmentpersistence)
  * [Linked to other container](#linked-to-other-container)
- * [Logging](#logging)
+ * [Adding PHP-extension](#adding-php-extension)
  * [Upgrading](#upgrading)
+ * [Logging](#logging)
  * [Out of the box](#out-of-the-box)
 
 Installation
@@ -81,6 +82,17 @@ docker run --name app -d -p 8080:80 \
   romeoz/docker-nginx-php
 ```
 
+Adding PHP-extension
+-------------------
+
+Install `php5-mongo`:
+
+```bash
+sudo docker exec -it app bash -c 'apt-get update && apt-get install php5-mongo && rm -rf /var/lib/apt/lists/*'
+```
+
+>See installed php-extension: `sudo docker exec -it app php -m`
+
 Upgrading
 -------------------
 
@@ -149,10 +161,12 @@ Create the file /etc/logrotate.d/docker-containers with the following text insid
 
 Out of the box
 -------------------
- * Ubuntu 14.04.3 (LTS)
+ * Ubuntu 14.04.3/12.04.5 (LTS)
  * Nginx 1.8.0
  * PHP 5.3/5.4/5.5/5.6
  * Composer
+
+>Environment depends on the version of PHP.
 
 License
 -------------------
