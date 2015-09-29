@@ -27,7 +27,7 @@ RUN	\
 	&& apt-get install -y supervisor && mkdir -p /var/log/supervisor \
 	# Cleaning
 	&& apt-get purge -y ansible \
-	&& apt-get autoremove -y \
+	&& apt-get autoremove -y && apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /tmp/provisionin* \
 	# Forward request and error logs to docker log collector
