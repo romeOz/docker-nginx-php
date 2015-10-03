@@ -15,9 +15,10 @@ ADD ./supervisord.conf /etc/supervisor/conf.d/
 WORKDIR /tmp/provisioning/
 
 RUN	\
+	buildDeps='software-properties-common python-software-properties' \
 	# Install ansible
-	apt-get update \
-	&& apt-get install --no-install-recommends -y software-properties-common python-software-properties sudo \
+	&& apt-get update \
+	&& apt-get install --no-install-recommends -y $buildDeps sudo \
 	&& add-apt-repository -y ppa:ansible/ansible \
 	&& apt-get update \
 	&& apt-get install -y ansible \
@@ -26,7 +27,7 @@ RUN	\
 	# Install supervisor
 	&& apt-get install -y supervisor && mkdir -p /var/log/supervisor \
 	# Cleaning
-	&& apt-get purge -y ansible \
+	&& apt-get purge -y --auto-remove ansible $buildDeps \
 	&& apt-get autoremove -y && apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /tmp/provisionin* \
