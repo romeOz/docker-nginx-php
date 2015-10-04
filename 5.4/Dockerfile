@@ -1,40 +1,39 @@
-FROM ubuntu:precise
+FROM romeoz/docker-phpfpm:5.4
 MAINTAINER romeOz <serggalka@gmail.com>
 
-ENV PHP_VERSION=5.4 \
-	APP_LOCALE="en_US.UTF-8"
-RUN locale-gen ${APP_LOCALE}
-ENV LANG ${APP_LOCALE}
-ENV LANGUAGE en_US:en
-ENV LC_ALL ${APP_LOCALE}
+ENV OS_LOCALE="en_US.UTF-8"
+RUN locale-gen ${OS_LOCALE}
+ENV LANG=${OS_LOCALE} \
+	LANGUAGE=en_US:en \
+	LC_ALL=${OS_LOCALE}
 
-# Add playbooks to the Docker image
-ADD ./app /var/www/app/
-ADD ./provisioning /tmp/provisioning/
-ADD ./supervisord.conf /etc/supervisor/conf.d/
-WORKDIR /tmp/provisioning/
+COPY ./supervisord.conf /etc/supervisor/conf.d/
+COPY ./app /var/www/app/
 
 RUN	\
 	buildDeps='software-properties-common python-software-properties' \
-	# Install ansible
 	&& apt-get update \
-	&& apt-get install --no-install-recommends -y $buildDeps sudo \
-	&& add-apt-repository -y ppa:ansible/ansible \
+	&& apt-get install --no-install-recommends -y $buildDeps \
+	&& add-apt-repository -y ppa:nginx/stable \
 	&& apt-get update \
-	&& apt-get install -y ansible \
-	# Apply playbooks
-	&& ansible-playbook -v docker.yml -i 'docker,' -c local --extra-vars "php_version=${PHP_VERSION}" \
+	&& apt-get install -y nginx \
+	&& rm -rf  /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* \
+	# Install composer
+	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 	# Install supervisor
 	&& apt-get install -y supervisor && mkdir -p /var/log/supervisor \
+	&& chown www-data:www-data /var/www/app/ -Rf \
 	# Cleaning
-	&& apt-get purge -y --auto-remove ansible $buildDeps \
+	&& apt-get purge -y --auto-remove $buildDeps \
 	&& apt-get autoremove -y && apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& rm -rf /tmp/provisionin* \
 	# Forward request and error logs to docker log collector
- 	&& ln -sf /dev/stdout /var/log/nginx/access.log \
- 	&& ln -sf /dev/stdout /var/log/php5-fpm.log \
+	&& ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
+
+COPY ./configs/nginx.conf /etc/nginx/nginx.conf
+COPY ./configs/app.conf /etc/nginx/sites-enabled/app.conf
+COPY ./configs/www.conf /etc/php5/fpm/pool.d/www.conf
 
 WORKDIR /var/www/app/
 

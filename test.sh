@@ -65,3 +65,6 @@ echo ""
 echo "-- Clear"
 docker rm -f -v $(sudo docker ps -aq); sleep 5
 docker rmi -f php-5.3
+
+echo ""
+echo "-- Done"
