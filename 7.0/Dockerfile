@@ -37,6 +37,6 @@ COPY ./configs/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 
 WORKDIR /var/www/app/
 
-EXPOSE 80 433
+EXPOSE 80 443
 
 CMD ["/usr/bin/supervisord"]
