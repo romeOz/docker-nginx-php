@@ -99,7 +99,7 @@ RUN apt-get update \
 
 WORKDIR /var/www/app/
 
-EXPOSE 80 433
+EXPOSE 80 443
 
 CMD ["/usr/bin/supervisord"]
 ```
@@ -158,7 +158,7 @@ Create the file `/etc/logrotate.d/docker-containers` with the following text ins
 Out of the box
 -------------------
  * Ubuntu 14.04/12.04 (LTS)
- * Nginx 1.8.1
+ * Nginx 1.10.0
  * PHP 5.3/5.4/5.5/5.6/7.0
  * Composer
 
