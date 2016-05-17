@@ -18,8 +18,6 @@ RUN	\
 	&& apt-get update \
 	&& apt-get install -y nginx \
 	&& rm -rf  /etc/nginx/sites-enabled/* /etc/nginx/sites-available/* \
-	# Install composer
-	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 	# Install supervisor
 	&& apt-get install -y supervisor && mkdir -p /var/log/supervisor \
 	&& chown www-data:www-data /var/www/app/ -Rf \
@@ -33,7 +31,7 @@ RUN	\
 
 COPY ./configs/nginx.conf /etc/nginx/nginx.conf
 COPY ./configs/app.conf /etc/nginx/sites-enabled/app.conf
-COPY ./configs/www.conf /etc/php5/fpm/pool.d/www.conf
+COPY ./configs/www.conf /etc/php/5.6/fpm/pool.d/www.conf
 
 WORKDIR /var/www/app/
 
