@@ -36,7 +36,7 @@ docker build -t="$USER/docker-nginx-php" .
 Quick Start
 -------------------
 
-Run the application image:
+Run the application container:
 
 ```bash
 docker run --name app -d -p 8080:80 romeoz/docker-nginx-php
@@ -74,7 +74,7 @@ docker network create pg_net
 docker run --name db -d --net pg_net romeoz/docker-postgresql
 ```
 
-Run the application image:
+Run the application container:
 
 ```bash
 docker run --name app -d -p 8080:80 \
@@ -169,4 +169,4 @@ Out of the box
 License
 -------------------
 
-Nginx + PHP-FPM container image is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Nginx + PHP-FPM docker image is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
