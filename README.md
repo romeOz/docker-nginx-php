@@ -1,3 +1,5 @@
+[![Docker Pulls](https://img.shields.io/docker/pulls/romeoz/docker-nginx-php.svg)](https://hub.docker.com/r/romeoz/docker-nginx-php/)
+
 Table of Contents
 -------------------
 
