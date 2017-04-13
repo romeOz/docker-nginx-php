@@ -162,7 +162,7 @@ Create the file `/etc/logrotate.d/docker-containers` with the following text ins
 Out of the box
 -------------------
  * Ubuntu 12.04, 14.04 or 16.04 LTS
- * Nginx 1.10
+ * Nginx 1.12
  * PHP 5.3, 5.4, 5.5, 5.6, 7.0 or 7.1
  * Composer (package manager)
 
