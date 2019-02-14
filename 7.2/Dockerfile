@@ -1,7 +1,8 @@
 FROM romeoz/docker-phpfpm:7.2
 MAINTAINER romeOz <serggalka@gmail.com>
 
-ENV OS_LOCALE="en_US.UTF-8"
+ENV OS_LOCALE="en_US.UTF-8" \
+    DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y locales && locale-gen ${OS_LOCALE}
 ENV LANG=${OS_LOCALE} \
     LANGUAGE=${OS_LOCALE} \
@@ -12,12 +13,12 @@ COPY ./supervisord.conf /etc/supervisor/conf.d/
 COPY ./app /var/www/app/
 
 RUN	\
-	BUILD_DEPS='software-properties-common python-software-properties wget' \
+	BUILD_DEPS='software-properties-common wget gnupg' \
     && dpkg-reconfigure locales \
 	&& apt-get install --no-install-recommends -y $BUILD_DEPS \
-    && wget -O - http://nginx.org/keys/nginx_signing.key | apt-key add - \
-	&& echo "deb http://nginx.org/packages/ubuntu/ xenial nginx" | tee -a /etc/apt/sources.list \
-	&& echo "deb-src http://nginx.org/packages/ubuntu/ xenial nginx" | tee -a /etc/apt/sources.list \
+    && wget -O - http://nginx.org/keys/nginx_signing.key | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=noninteractive apt-key add - \
+	&& echo "deb http://nginx.org/packages/ubuntu/ bionic nginx" | tee -a /etc/apt/sources.list \
+	&& echo "deb-src http://nginx.org/packages/ubuntu/ bionic nginx" | tee -a /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install -y nginx \
 	&& rm -rf ${NGINX_CONF_DIR}/sites-enabled/* ${NGINX_CONF_DIR}/sites-available/* \
