@@ -21,10 +21,10 @@ Installation
 docker pull romeoz/docker-nginx-php
 ```
 
-or other versions (7.2, 7.1, 7.0, 5.6, 5.5, 5.4 or 5.3):
+or other versions (7.3, 7.2, 7.1, 7.0, 5.6, 5.5, 5.4 or 5.3):
 
 ```bash
-docker pull romeoz/docker-nginx-php:5.4
+docker pull romeoz/docker-nginx-php:7.1
 ```
 
 Alternately you can build the image yourself.
@@ -161,9 +161,9 @@ Create the file `/etc/logrotate.d/docker-containers` with the following text ins
 
 Out of the box
 -------------------
- * Ubuntu 12.04, 14.04 or 16.04 LTS
+ * Ubuntu 12.04, 14.04, 16.04 or 18.04 LTS
  * Nginx 1.14
- * PHP 5.3, 5.4, 5.5, 5.6, 7.0, 7.1 or 7.2
+ * PHP 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2 or 7.3
  * Composer (package manager)
 
 >Environment depends on the version of PHP.
